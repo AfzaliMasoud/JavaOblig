@@ -108,6 +108,7 @@ public class Main extends Application {
         });
     }
 
+
     private void oppsettMusKlikk(Pane tegnePane) {
         tegnePane.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.SECONDARY) {
@@ -194,3 +195,6 @@ public class Main extends Application {
         launch(args);
     }
 }
+
+
+test test ;
