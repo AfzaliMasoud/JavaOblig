@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.scene.shape.Shape;
+
 
 import java.io.IOException;
 
@@ -25,7 +27,7 @@ public class Linje extends Figur {
         linje.setEndY(endY);
     }
 
-    @Override
+
     public Color getStrokeColor() {
         return (Color) linje.getStroke();
     }
@@ -78,7 +80,8 @@ public class Linje extends Figur {
         }
     }
 
-    private void removeShape() {
+    @Override
+    public void removeShape() {
         linje.setVisible(false);
     }
 

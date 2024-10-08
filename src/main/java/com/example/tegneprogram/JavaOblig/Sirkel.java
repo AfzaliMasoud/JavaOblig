@@ -1,5 +1,6 @@
 package com.example.tegneprogram.JavaOblig;
 
+import javafx.scene.shape.Shape;
 import javafx.scene.paint.Color;
 
 public class Sirkel extends Figur {
@@ -87,8 +88,8 @@ public class Sirkel extends Figur {
         }
     }
 
-
-    private void removeShape() {
+    @Override
+    public void removeShape() {
         sirkel.setVisible(false);
     }
 }

@@ -26,13 +26,13 @@ public abstract class Figur {
 
     public abstract Shape getShape();
 
+    public abstract void removeShape();
+
     public abstract String getDetails();
 
     public abstract double fåX();
 
     public abstract double fåY();
-
-
 
     public abstract void handleMousePressed(double x, double y);
 

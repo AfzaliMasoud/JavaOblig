@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.input.MouseButton;
@@ -41,7 +42,7 @@ public class Main extends Application {
     String figurnavn;
     private double startX;
     private double startY;
-    private Figur selectedFigur;
+    public Figur selectedFigur;
 
     @Override
     public void start(Stage primaryStage) {
@@ -61,6 +62,7 @@ public class Main extends Application {
         primaryStage.setTitle("Tegneprogram");
         primaryStage.setScene(scene);
         primaryStage.show();
+        tegnePane.requestFocus();
     }
 
     private void oppsettMusTrykk(Pane tegnePane) {

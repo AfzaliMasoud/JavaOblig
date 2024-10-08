@@ -1,6 +1,7 @@
 package com.example.tegneprogram.JavaOblig;
 
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 
 
 public class Rektangel extends Figur {
@@ -46,7 +47,7 @@ public class Rektangel extends Figur {
     }
 
     @Override
-    public javafx.scene.shape.Shape getShape() {
+    public Shape getShape() {
         return rektangel;
     }
 
@@ -110,7 +111,8 @@ public class Rektangel extends Figur {
         }
     }
 
-    private void removeShape() {
+    @Override
+    public void removeShape() {
         rektangel.setVisible(false);
     }
 
