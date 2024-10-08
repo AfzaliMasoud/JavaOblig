@@ -36,6 +36,10 @@ public class Main extends Application {
     Label velgnystroke = new Label("Velg en ny stroke farge: ");
     ComboBox<String> velgnystroketext = new ComboBox<>();
 
+    Label velgnyFiller = new Label("Velg en ny Fill farge: ");
+    ComboBox<String> velgnyFillertext = new ComboBox<>();
+
+
     VBox infBox;
     ArrayList<Figur> figurer = new ArrayList<>();
     String valgtFigur = "Rektangel";
@@ -107,8 +111,8 @@ public class Main extends Application {
         ComboBox<String> listeFarger = new ComboBox<>();
         listeFarger.getItems().addAll("Blå", "Rød", "Grønn", "Gul", "Svart");
         listeFarger.setValue("Blå");
-
         velgnystroketext.getItems().addAll("Blå", "Rød", "Grønn", "Gul", "Svart");
+        velgnyFillertext.getItems().addAll("Blå", "Rød", "Grønn", "Gul", "Svart");
         listeFarger.setOnAction(e -> valgtFarge = fargeValg(listeFarger.getValue()));
         listeFill.setOnAction(e -> valgtFillFarge = fargeValg(listeFill.getValue()));
         vBox.getChildren().addAll(velgFigur, listeFigurer, velgFarge, listeFarger);
@@ -151,7 +155,8 @@ public class Main extends Application {
                         infBox.setVisible(true);
                         String strokeColorString = fargeTilString(selectedFigur.getStrokeColor());
                         velgnystroketext.setValue(strokeColorString);
-
+                        String fillColorString = fargeTilString(selectedFigur.getFillColor());
+                        velgnyFillertext.setValue(fillColorString);
 
                         break;
                     }
@@ -161,13 +166,27 @@ public class Main extends Application {
                 }
             }
         });
-
+        velgnystroketext.setOnAction(e -> {
+            if (selectedFigur != null) {
+                String valgavastrokfarge = velgnystroketext.getValue();
+                Color nyStrokeFarge = nyfargeValg(valgavastrokfarge);
+                selectedFigur.setnyStrokeColor(nyStrokeFarge);
+                FigurFarge2.setText("Farge Stroke: " + nyStrokeFarge);
+            }
+        });
+        velgnyFillertext.setOnAction(e -> {
+            if (selectedFigur != null){
+                String valgavfill = velgnyFillertext.getValue();
+                Color nyfillFarge = nyfargeValg(valgavfill);
+                selectedFigur.SetNyFill(nyfillFarge);
+            }
+        });
     }
 
     public VBox lagInfPane() {
         VBox boxinf = new VBox();
         boxinf.setAlignment(Pos.CENTER);
-        boxinf.getChildren().addAll(whichshape, figurklikket, FigurPos, FigurPos2, FigurFarge, FigurFarge2,FigurFillFarge,FigurFillFargetext,velgnystroke,velgnystroketext);
+        boxinf.getChildren().addAll(whichshape, figurklikket, FigurPos, FigurPos2, FigurFarge, FigurFarge2,FigurFillFarge,FigurFillFargetext,velgnystroke,velgnystroketext,velgnyFiller,velgnyFillertext);
         stilValg(boxinf);
         return boxinf;
     }

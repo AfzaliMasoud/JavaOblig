@@ -56,6 +56,12 @@ public class Linje extends Figur {
         return "Linje: Fra (" + linje.getStartX() + ", " + linje.getStartY() + ") til (" + linje.getEndX() + ", " + linje.getEndY() + ")";
     }
 
+    @Override
+    public void SetNyFill(Color nyFarge){
+        linje.setFill(nyFarge);
+    }
+
+
 
     @Override
     public void handleMousePressed(double x, double y) {

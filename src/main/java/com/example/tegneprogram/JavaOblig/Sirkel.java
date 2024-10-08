@@ -34,10 +34,7 @@ public class Sirkel extends Figur {
         return (Color) sirkel.getStroke();
     }
 
-    @Override
-    public void setFillColor(Color fillColor) {
-        this.fillColor = fillColor;
-    }
+
 
     @Override
     public void setnyStrokeColor(Color nyFarge){
@@ -47,6 +44,10 @@ public class Sirkel extends Figur {
     @Override
     public Color getFillColor() {
         return (Color) sirkel.getFill();
+    }
+    @Override
+    public void SetNyFill(Color nyFarge){
+        sirkel.setFill(nyFarge);
     }
 
     @Override

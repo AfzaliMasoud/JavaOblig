@@ -17,14 +17,11 @@ public abstract class Figur {
 
     public abstract Color getStrokeColor();
 
-    public void setStrokeColor(Color strokeColor) {
-        this.strokeColor = strokeColor;
-    }
-
-    public abstract void setFillColor(Color fillColor);
     public abstract void setnyStrokeColor(Color nystrokeColor);
 
     public abstract Color getFillColor();
+
+    public abstract void SetNyFill(Color nystrokeColor);
 
     public abstract Shape getShape();
 

@@ -36,10 +36,7 @@ public class Rektangel extends Figur {
         return rektangel.getHeight();
     }
 
-    @Override
-    public void setFillColor(Color fillColor) {
-        this.fillColor = fillColor;
-    }
+
 
     @Override
     public Color getFillColor() {
@@ -73,7 +70,10 @@ public class Rektangel extends Figur {
     public void setnyStrokeColor(Color nyFarge){
         rektangel.setStroke(nyFarge);
     }
-
+    @Override
+    public void SetNyFill(Color nyFarge){
+        rektangel.setFill(nyFarge);
+    }
 
     @Override
     public void handleMousePressed(double x, double y) {
