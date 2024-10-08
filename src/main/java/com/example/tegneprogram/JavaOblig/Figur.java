@@ -4,17 +4,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
 public abstract class Figur {
-    protected Color strokeColor;
     protected Color fillColor;
-
-    public Figur(Color strokeColor, Color fillColor) {
-        this.strokeColor = strokeColor;
-        this.fillColor = fillColor;
-    }
-
-    public Figur() {
-    }
-
 
     public abstract Color getStrokeColor();
 

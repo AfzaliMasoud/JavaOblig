@@ -1,14 +1,6 @@
 package com.example.tegneprogram.JavaOblig;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import javafx.scene.shape.Shape;
-
-
-import java.io.IOException;
 
 public class Linje extends Figur {
     private javafx.scene.shape.Line linje;
@@ -36,10 +28,6 @@ public class Linje extends Figur {
         linje.setStroke(nyFarge);
     }
 
-
-    public void setFillColor(Color fillColor) {
-        this.fillColor = fillColor;
-    }
 
     @Override
     public Color getFillColor() {

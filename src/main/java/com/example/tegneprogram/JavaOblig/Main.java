@@ -4,13 +4,13 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.input.MouseButton;
@@ -39,6 +39,7 @@ public class Main extends Application {
     Label velgnyFiller = new Label("Velg en ny Fill farge: ");
     ComboBox<String> velgnyFillertext = new ComboBox<>();
 
+    Button Slett = new Button("SLETT FIGUR");
 
     VBox infBox;
     ArrayList<Figur> figurer = new ArrayList<>();
@@ -46,7 +47,6 @@ public class Main extends Application {
     Color valgtFarge = Color.BLUE;
     Color valgtFillFarge = Color.BLUE;
 
-    String figurnavn;
     private double startX;
     private double startY;
     public Figur selectedFigur;
@@ -189,13 +189,22 @@ public class Main extends Application {
                 selectedFigur.SetNyFill(nyfillFarge);
             }
         });
+
+        Slett.setOnAction(e -> {
+            if (selectedFigur !=null){
+                selectedFigur.removeShape();
+            }
+        });
+
     }
 
 
     public VBox lagInfPane() {
         VBox boxinf = new VBox();
         boxinf.setAlignment(Pos.CENTER);
-        boxinf.getChildren().addAll(whichshape, figurklikket, FigurPos, FigurPos2, FigurFarge, FigurFarge2,FigurFillFarge,FigurFillFargetext,velgnystroke,velgnystroketext,velgnyFiller,velgnyFillertext);
+        boxinf.getChildren().addAll(whichshape, figurklikket, FigurPos, FigurPos2, FigurFarge, FigurFarge2,FigurFillFarge,
+                FigurFillFargetext,velgnystroke,velgnystroketext,velgnyFiller,velgnyFillertext,Slett);
+        slettStyle(Slett);
         stilValg(boxinf);
         return boxinf;
     }
@@ -257,6 +266,19 @@ public class Main extends Application {
                 "-fx-text-fill: #333; " +
                 "-fx-background-radius: 8; " +
                 "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 8, 0.5, 0, 0);");
+    }
+    public void slettStyle(Node n){
+        n.setStyle(
+                "-fx-background-color: #ff4d4d;" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-border-color: #cc0000;" +
+                        "-fx-border-width: 2px;" +
+                        "-fx-background-radius: 5px;" +
+                        "-fx-border-radius: 5px;" +
+                        "-fx-padding: 10 20;"
+        );
     }
 
     public static void main(String[] args) {

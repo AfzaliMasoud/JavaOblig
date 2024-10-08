@@ -8,7 +8,6 @@ public class Rektangel extends Figur {
     private javafx.scene.shape.Rectangle rektangel;
     private double initialX;
     private double initialY;
-    private Color fillColor;
 
     public Rektangel(double x, double y, double width, double height, Color strokeColor, Color fillColor) {
         rektangel = new javafx.scene.shape.Rectangle(x, y, width, height);
