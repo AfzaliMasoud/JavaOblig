@@ -15,6 +15,7 @@ public abstract class Figur {
     public Figur() {
     }
 
+
     public abstract Color getStrokeColor();
 
     public abstract void setnyStrokeColor(Color nystrokeColor);

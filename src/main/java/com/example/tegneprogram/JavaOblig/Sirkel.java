@@ -89,6 +89,10 @@ public class Sirkel extends Figur {
             removeShape();
         } else if (radius <45) {
             sirkel.setStrokeWidth(1);
+        } else if (radius >45 || radius < 100) {
+            sirkel.setStrokeWidth(2);
+        } else if (radius > 100){
+            sirkel.setStrokeWidth(2*radius);
         }
     }
 

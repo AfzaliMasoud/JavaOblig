@@ -145,7 +145,10 @@ public class Main extends Application {
                 double mouseX = e.getX();
                 double mouseY = e.getY();
                 selectedFigur = null;
-                for (Figur figur : figurer) {
+
+                for (int i = figurer.size() - 1; i >= 0; i--) {
+                    Figur figur = figurer.get(i);
+
                     if (figur.getShape().contains(mouseX, mouseY)) {
                         selectedFigur = figur;
                         figurklikket.setText(selectedFigur.getDetails());
@@ -153,19 +156,23 @@ public class Main extends Application {
                         FigurFarge2.setText("Farge Stroke: " + selectedFigur.getStrokeColor());
                         FigurFillFargetext.setText("Farge Fill: " + selectedFigur.getFillColor());
                         infBox.setVisible(true);
+
                         String strokeColorString = fargeTilString(selectedFigur.getStrokeColor());
                         velgnystroketext.setValue(strokeColorString);
+
                         String fillColorString = fargeTilString(selectedFigur.getFillColor());
                         velgnyFillertext.setValue(fillColorString);
 
                         break;
                     }
                 }
+
                 if (selectedFigur == null) {
                     infBox.setVisible(false);
                 }
             }
         });
+
         velgnystroketext.setOnAction(e -> {
             if (selectedFigur != null) {
                 String valgavastrokfarge = velgnystroketext.getValue();
@@ -174,6 +181,7 @@ public class Main extends Application {
                 FigurFarge2.setText("Farge Stroke: " + nyStrokeFarge);
             }
         });
+
         velgnyFillertext.setOnAction(e -> {
             if (selectedFigur != null){
                 String valgavfill = velgnyFillertext.getValue();
@@ -182,6 +190,7 @@ public class Main extends Application {
             }
         });
     }
+
 
     public VBox lagInfPane() {
         VBox boxinf = new VBox();
