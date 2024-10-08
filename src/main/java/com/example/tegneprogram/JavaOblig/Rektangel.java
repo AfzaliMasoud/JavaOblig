@@ -69,6 +69,10 @@ public class Rektangel extends Figur {
     public Color getStrokeColor(){
         return (Color) rektangel.getStroke();
     }
+    @Override
+    public void setnyStrokeColor(Color nyFarge){
+        rektangel.setStroke(nyFarge);
+    }
 
 
     @Override
@@ -96,7 +100,7 @@ public class Rektangel extends Figur {
         if (areal < 25) {
             removeShape();
         } else if (areal > 4900) {
-            rektangel.setStrokeWidth(2);
+            rektangel.setStrokeWidth(4);
         } else {
             double StrokeWidth = 2 + (areal - 25) / (4900 - 25) * (5 - 2);
             double justering = 1.0;
@@ -109,6 +113,8 @@ public class Rektangel extends Figur {
             StrokeWidth = Math.max(2, Math.min(5, StrokeWidth));
             rektangel.setStrokeWidth(StrokeWidth);
         }
+
+
     }
 
     @Override

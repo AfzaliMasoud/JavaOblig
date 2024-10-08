@@ -33,6 +33,9 @@ public class Main extends Application {
     Label FigurFillFarge = new Label("Figur Fill farge");
     TextField FigurFillFargetext = new TextField();
 
+    Label velgnystroke = new Label("Velg en ny stroke farge: ");
+    ComboBox<String> velgnystroketext = new ComboBox<>();
+
     VBox infBox;
     ArrayList<Figur> figurer = new ArrayList<>();
     String valgtFigur = "Rektangel";
@@ -91,7 +94,29 @@ public class Main extends Application {
             }
         });
     }
+    public VBox lagValgPane() {
+        VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
+        ComboBox<String> listeFigurer = new ComboBox<>();
+        ComboBox<String> listeFill = new ComboBox<>();
+        listeFill.getItems().addAll("Blå", "Rød", "Grønn", "Gul", "Svart");
+        listeFill.setValue("Blå");
+        listeFigurer.getItems().addAll("Linje", "Sirkel", "Rektangel");
+        listeFigurer.setValue("Rektangel");
+        listeFigurer.setOnAction(e -> valgtFigur = listeFigurer.getValue());
+        ComboBox<String> listeFarger = new ComboBox<>();
+        listeFarger.getItems().addAll("Blå", "Rød", "Grønn", "Gul", "Svart");
+        listeFarger.setValue("Blå");
 
+        velgnystroketext.getItems().addAll("Blå", "Rød", "Grønn", "Gul", "Svart");
+        listeFarger.setOnAction(e -> valgtFarge = fargeValg(listeFarger.getValue()));
+        listeFill.setOnAction(e -> valgtFillFarge = fargeValg(listeFill.getValue()));
+        vBox.getChildren().addAll(velgFigur, listeFigurer, velgFarge, listeFarger);
+        vBox.getChildren().addAll(VelgFill, listeFill);
+        vBox.getChildren().addAll(velgnystroke,velgnystroketext);
+        stilValg(vBox);
+        return vBox;
+    }
     private void oppsettMusDra(Pane tegnePane) {
         tegnePane.setOnMouseDragged(e -> {
             if (e.getButton() == MouseButton.PRIMARY && selectedFigur != null) {
@@ -110,10 +135,9 @@ public class Main extends Application {
         });
     }
 
-
     private void oppsettMusKlikk(Pane tegnePane) {
         tegnePane.setOnMouseClicked(e -> {
-            if (e.getButton() == MouseButton.SECONDARY) {
+            if (e.getButton() == MouseButton.SECONDARY && !e.isPrimaryButtonDown()) {
                 double mouseX = e.getX();
                 double mouseY = e.getY();
                 selectedFigur = null;
@@ -125,6 +149,10 @@ public class Main extends Application {
                         FigurFarge2.setText("Farge Stroke: " + selectedFigur.getStrokeColor());
                         FigurFillFargetext.setText("Farge Fill: " + selectedFigur.getFillColor());
                         infBox.setVisible(true);
+                        String strokeColorString = fargeTilString(selectedFigur.getStrokeColor());
+                        velgnystroketext.setValue(strokeColorString);
+
+
                         break;
                     }
                 }
@@ -133,36 +161,17 @@ public class Main extends Application {
                 }
             }
         });
+
     }
 
     public VBox lagInfPane() {
         VBox boxinf = new VBox();
         boxinf.setAlignment(Pos.CENTER);
-        boxinf.getChildren().addAll(whichshape, figurklikket, FigurPos, FigurPos2, FigurFarge, FigurFarge2,FigurFillFarge,FigurFillFargetext);
+        boxinf.getChildren().addAll(whichshape, figurklikket, FigurPos, FigurPos2, FigurFarge, FigurFarge2,FigurFillFarge,FigurFillFargetext,velgnystroke,velgnystroketext);
         stilValg(boxinf);
         return boxinf;
     }
 
-    public VBox lagValgPane() {
-        VBox vBox = new VBox();
-        vBox.setAlignment(Pos.CENTER);
-        ComboBox<String> listeFigurer = new ComboBox<>();
-        ComboBox<String> listeFill = new ComboBox<>();
-        listeFill.getItems().addAll("Blå", "Rød", "Grønn", "Gul", "Svart");
-        listeFill.setValue("Blå");
-        listeFigurer.getItems().addAll("Linje", "Sirkel", "Rektangel");
-        listeFigurer.setValue("Rektangel");
-        listeFigurer.setOnAction(e -> valgtFigur = listeFigurer.getValue());
-        ComboBox<String> listeFarger = new ComboBox<>();
-        listeFarger.getItems().addAll("Blå", "Rød", "Grønn", "Gul", "Svart");
-        listeFarger.setValue("Blå");
-        listeFarger.setOnAction(e -> valgtFarge = fargeValg(listeFarger.getValue()));
-        listeFill.setOnAction(e -> valgtFillFarge = fargeValg(listeFill.getValue()));
-        vBox.getChildren().addAll(velgFigur, listeFigurer, velgFarge, listeFarger);
-        vBox.getChildren().addAll(VelgFill, listeFill);
-        stilValg(vBox);
-        return vBox;
-    }
 
     public Color fargeValg(String fargeNavn) {
         switch (fargeNavn) {
@@ -179,6 +188,35 @@ public class Main extends Application {
         }
     }
 
+    public Color nyfargeValg(String fargenavn){
+        switch (fargenavn) {
+            case "Rød":
+                return Color.RED;
+            case "Grønn":
+                return Color.GREEN;
+            case "Gul":
+                return Color.YELLOW;
+            case "Svart":
+                return Color.BLACK;
+            default:
+                return Color.BLUE;
+        }
+    }
+    public String fargeTilString(Color farge) {
+        if (farge.equals(Color.RED)) {
+            return "Rød";
+        } else if (farge.equals(Color.GREEN)) {
+            return "Grønn";
+        } else if (farge.equals(Color.YELLOW)) {
+            return "Gul";
+        } else if (farge.equals(Color.BLACK)) {
+            return "Svart";
+        } else if (farge.equals(Color.BLUE)) {
+            return "Blå";
+        } else {
+            return "Ukjent"; // Default value if color is not found
+        }
+    }
     public void stilValg(Node n) {
         n.setStyle("-fx-padding: 12; " +
                 "-fx-spacing: 12; " +
@@ -197,4 +235,3 @@ public class Main extends Application {
         launch(args);
     }
 }
-

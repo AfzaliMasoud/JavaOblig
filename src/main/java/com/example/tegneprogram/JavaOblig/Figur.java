@@ -11,7 +11,8 @@ public abstract class Figur {
         this.strokeColor = strokeColor;
         this.fillColor = fillColor;
     }
-    public Figur(){
+
+    public Figur() {
     }
 
     public abstract Color getStrokeColor();
@@ -21,6 +22,7 @@ public abstract class Figur {
     }
 
     public abstract void setFillColor(Color fillColor);
+    public abstract void setnyStrokeColor(Color nystrokeColor);
 
     public abstract Color getFillColor();
 
@@ -39,5 +41,4 @@ public abstract class Figur {
     public abstract void handleMouseDragged(double x, double y);
 
     public abstract void handleMouseReleased();
-
 }

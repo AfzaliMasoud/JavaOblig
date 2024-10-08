@@ -31,6 +31,10 @@ public class Linje extends Figur {
     public Color getStrokeColor() {
         return (Color) linje.getStroke();
     }
+    @Override
+    public void setnyStrokeColor(Color nyFarge){
+        linje.setStroke(nyFarge);
+    }
 
 
     public void setFillColor(Color fillColor) {

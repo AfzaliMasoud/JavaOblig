@@ -1,7 +1,8 @@
 package com.example.tegneprogram.JavaOblig;
 
-import javafx.scene.shape.Shape;
+
 import javafx.scene.paint.Color;
+
 
 public class Sirkel extends Figur {
     private javafx.scene.shape.Circle sirkel;
@@ -36,6 +37,11 @@ public class Sirkel extends Figur {
     @Override
     public void setFillColor(Color fillColor) {
         this.fillColor = fillColor;
+    }
+
+    @Override
+    public void setnyStrokeColor(Color nyFarge){
+        sirkel.setStroke(nyFarge);
     }
 
     @Override
@@ -80,11 +86,8 @@ public class Sirkel extends Figur {
 
         if (radius < 5) {
             removeShape();
-        } else if (radius == 15) {
+        } else if (radius <45) {
             sirkel.setStrokeWidth(1);
-        } else {
-            double StrokeWidth = 2 + (radius - 5) / (15 - 5) * (5 - 2);
-            sirkel.setStrokeWidth(Math.max(2, Math.min(5, StrokeWidth)));
         }
     }
 
