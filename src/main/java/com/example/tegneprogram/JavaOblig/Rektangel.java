@@ -100,7 +100,7 @@ public class Rektangel extends Figur {
         double bredde = getWidth();
         double hoyde = getHeight();
         double areal = bredde * hoyde;
-        if (areal < 5) {
+        if (areal < 1) {
             removeShape();
         }
     }
@@ -109,5 +109,6 @@ public class Rektangel extends Figur {
     public void removeShape() {
         rektangel.setVisible(false);
     }
+
 
 }

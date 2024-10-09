@@ -73,7 +73,7 @@ public class Linje extends Figur {
 
     @Override
     public void handleMouseReleased() {
-        if (Math.abs(linje.getEndX() - linje.getStartX()) < 3 && Math.abs(linje.getEndY() - linje.getStartY()) < 3) {
+        if (Math.abs(linje.getEndX() - linje.getStartX()) < 1 && Math.abs(linje.getEndY() - linje.getStartY()) < 1) {
             removeShape();
         }
     }

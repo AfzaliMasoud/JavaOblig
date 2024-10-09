@@ -14,8 +14,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.input.MouseButton;
-
-import javax.swing.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.input.KeyEvent;
+import javax.swing.JOptionPane;
 import java.util.ArrayList;
 
 
@@ -67,6 +69,7 @@ public class Main extends Application {
     private double startY;
     public Figur selectedFigur;
 
+
     @Override
     public void start(Stage primaryStage) {
         figurklikket.setEditable(false);
@@ -95,7 +98,6 @@ public class Main extends Application {
 
     }
 
-
     private void oppsettMusTrykk(Pane tegnePane) {
         tegnePane.setOnMousePressed(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
@@ -104,13 +106,13 @@ public class Main extends Application {
                 strokebredde = Double.parseDouble(Strokwidthtext.getText());
                 switch (valgtFigur) {
                     case "Rektangel":
-                        nyFigur = new Rektangel(startX, startY, 0, 0, valgtFarge, valgtFillFarge,strokebredde);
+                        nyFigur = new Rektangel(startX, startY, 0, 0, valgtFarge, valgtFillFarge, strokebredde);
                         break;
                     case "Sirkel":
-                        nyFigur = new Sirkel(startX, startY, 0, valgtFarge, valgtFillFarge,strokebredde);
+                        nyFigur = new Sirkel(startX, startY, 0, valgtFarge, valgtFillFarge, strokebredde);
                         break;
                     case "Linje":
-                        nyFigur = new Linje(startX, startY, startX, startY, valgtFarge,strokebredde);
+                        nyFigur = new Linje(startX, startY, startX, startY, valgtFarge, strokebredde);
                         break;
                 }
                 if (nyFigur != null) {
@@ -126,13 +128,55 @@ public class Main extends Application {
                     figurer.remove(nyFigur);
                 } else if (nyFigur != null) {
                     JOptionPane.showMessageDialog(null, "Stroke bredde kan ikke være mindre enn 1 og større enn 20", "FEIL!!!", JOptionPane.ERROR_MESSAGE);
-                }
-                else if (nyFigur == null){
+                } else if (nyFigur == null) {
                     JOptionPane.showMessageDialog(null, "Du må lage en figur først!", "Tom pane", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
+
+        Strokwidthtext.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue.isEmpty()) {
+                    return;
+                }
+                if (!isValidDouble(newValue)) {
+                    JOptionPane.showMessageDialog(null, "Stroke bredde må være et tall!", "FEIL!!!", JOptionPane.ERROR_MESSAGE);
+                    Strokwidthtext.setText(oldValue);
+                } else {
+                    try {
+                        double strokeWidth = Double.parseDouble(newValue);
+                        if (strokeWidth < 1 || strokeWidth > 20) {
+                            JOptionPane.showMessageDialog(null, "Stroke bredde kan ikke være mindre enn 1 og større enn 20", "FEIL!!!", JOptionPane.ERROR_MESSAGE);
+                            Strokwidthtext.setText(oldValue);
+                        }
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(null, "Stroke bredde må være et tall!", "FEIL!!!", JOptionPane.ERROR_MESSAGE);
+                        Strokwidthtext.setText(oldValue);
+                    }
+                }
+            }
+        });
+
+        Strokwidthtext.addEventFilter(KeyEvent.KEY_TYPED, e -> {
+            if (!e.getCharacter().matches("[0-9.]")) {
+                e.consume();
+            }
+        });
     }
+
+    private boolean isValidDouble(String text) {
+        if (text == null || text.isEmpty()) {
+            return true;
+        }
+        try {
+            Double.parseDouble(text);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
     public VBox lagValgPane() {
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
@@ -210,10 +254,11 @@ public class Main extends Application {
 
         velgnystroketext.setOnAction(e -> {
             if (selectedFigur != null) {
+
                 String valgavastrokfarge = velgnystroketext.getValue();
                 Color nyStrokeFarge = nyfargeValg(valgavastrokfarge);
                 selectedFigur.setnyStrokeColor(nyStrokeFarge);
-                FigurFarge2.setText( "" + nyStrokeFarge);
+                FigurFarge2.setText("" + nyStrokeFarge);
 
             }
         });
@@ -223,12 +268,18 @@ public class Main extends Application {
                 String valgavfill = velgnyFillertext.getValue();
                 Color nyfillFarge = nyfargeValg(valgavfill);
                 selectedFigur.SetNyFill(nyfillFarge);
+                FigurFillFargetext.setText(""+nyfillFarge);
             }
         });
 
-        byttStrokewidthText.setOnAction(e->{
-            if (selectedFigur != null){
-                double breddeny = Double.parseDouble(byttStrokewidthText.getText());
+        byttStrokewidthText.setOnAction(e -> {
+            if (selectedFigur != null) {
+                String newStrokeWidthText = byttStrokewidthText.getText();
+                if (!isvalid(newStrokeWidthText)) {
+                    JOptionPane.showMessageDialog(null, "Stroke bredde må være et gyldig tall! (mellom 0 OG 20, bruk komma(.)for å skrive tall med desimaltall", "FEIL!!!", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                double breddeny = Double.parseDouble(newStrokeWidthText);
                 if (breddeny <= 0 || breddeny > 20) {
                     JOptionPane.showMessageDialog(null, "Stroke bredde kan ikke være mindre enn 1 og større enn 20", "FEIL!!!", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -238,12 +289,27 @@ public class Main extends Application {
         });
 
         Slett.setOnAction(e -> {
-            if (selectedFigur !=null){
-                selectedFigur.removeShape();
+            if (selectedFigur != null) {
+                tegnePane.getChildren().remove(selectedFigur.getShape());
+                figurer.remove(selectedFigur);
+                selectedFigur = null;
+                infBox.setVisible(false);
             }
         });
-
     }
+
+    private boolean isvalid(String text) {
+        if (text == null || text.isEmpty()) {
+            return false;
+        }
+        try {
+            Double.parseDouble(text);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
     public VBox lagInfPane() {
         VBox boxinf = new VBox();
         boxinf.setAlignment(Pos.CENTER);
@@ -253,6 +319,7 @@ public class Main extends Application {
         stilValg(boxinf);
         return boxinf;
     }
+
 
 
     public Color fargeValg(String fargeNavn) {
@@ -305,6 +372,7 @@ public class Main extends Application {
         }
     }
 
+
     public void stilValg(Node n) {
         n.setStyle("-fx-padding: 12; " +
                 "-fx-spacing: 12; " +
@@ -331,6 +399,8 @@ public class Main extends Application {
                         "-fx-padding: 10 20;"
         );
     }
+
+
 
     public static void main(String[] args) {
         launch(args);

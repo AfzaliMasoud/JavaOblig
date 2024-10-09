@@ -5,9 +5,11 @@ import javafx.scene.shape.Shape;
 
 public abstract class Figur {
 
+
     public abstract Color getStrokeColor();
 
     public abstract void setnyStrokeColor(Color nystrokeColor);
+
 
     public Color getFillColor(){
         return (Color) getShape().getFill();
@@ -21,7 +23,6 @@ public abstract class Figur {
 
     public abstract Shape getShape();
 
-    public abstract void removeShape();
 
     public double getStrokeWidth(){
         return (double) getShape().getStrokeWidth();
@@ -40,4 +41,6 @@ public abstract class Figur {
     public abstract void handleMouseDragged(double x, double y);
 
     public abstract void handleMouseReleased();
+    public abstract void removeShape();
+
 }

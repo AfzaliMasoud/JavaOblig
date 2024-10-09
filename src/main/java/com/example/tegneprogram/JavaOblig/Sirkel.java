@@ -94,7 +94,7 @@ public class Sirkel extends Figur {
     @Override
     public void handleMouseReleased() {
         double radius = getRadius();
-        if (radius < 2) {
+        if (radius < 1) {
             removeShape();
         }
     }
@@ -103,4 +103,5 @@ public class Sirkel extends Figur {
     public void removeShape() {
         sirkel.setVisible(false);
     }
+
 }
