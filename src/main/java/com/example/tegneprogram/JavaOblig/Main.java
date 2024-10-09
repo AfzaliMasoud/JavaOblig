@@ -119,8 +119,12 @@ public class Main extends Application {
                 if (nyFigur != null) {
                     tegnePane.getChildren().remove(nyFigur.getShape());
                     figurer.remove(nyFigur);
+                } else if (nyFigur != null) {
+                    JOptionPane.showMessageDialog(null, "Stroke bredde kan ikke være mindre enn 1 og større enn 20", "FEIL!!!", JOptionPane.ERROR_MESSAGE);
                 }
-                JOptionPane.showMessageDialog(null, "Stroke bredde kan ikke være mindre enn 1 og større enn 20", "FEIL!!!", JOptionPane.ERROR_MESSAGE);
+                else if (nyFigur == null){
+                    JOptionPane.showMessageDialog(null, "Du må lage en figur først!", "Tom pane", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
