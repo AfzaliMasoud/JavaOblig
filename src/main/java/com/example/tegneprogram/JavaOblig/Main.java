@@ -26,7 +26,7 @@ public class Main extends Application {
     Label velgStrokeWidth = new Label("Skriv Stroke width: ");
     TextField Strokwidthtext = new TextField("1");
 
-    int strokebredde;
+    double strokebredde;
     Figur nyFigur = null;
 
     Label whichshape = new Label("Figur Du har klikket på: ");
@@ -96,7 +96,7 @@ public class Main extends Application {
             if (e.getButton() == MouseButton.PRIMARY) {
                 startX = e.getX();
                 startY = e.getY();
-                strokebredde = Integer.parseInt(Strokwidthtext.getText());
+                strokebredde = Double.parseDouble(Strokwidthtext.getText());
                 switch (valgtFigur) {
                     case "Rektangel":
                         nyFigur = new Rektangel(startX, startY, 0, 0, valgtFarge, valgtFillFarge,strokebredde);
@@ -186,7 +186,7 @@ public class Main extends Application {
                         FigurFillFargetext.setText("Farge Fill: " + selectedFigur.getFillColor());
                         String strokeColorString = fargeTilString(selectedFigur.getStrokeColor());
                         velgnystroketext.setValue(strokeColorString);
-
+                        gamleStrokewidthtext.setText(String.valueOf(selectedFigur.getStrokeWidth()));
                         String fillColorString = fargeTilString(selectedFigur.getFillColor());
                         velgnyFillertext.setValue(fillColorString);
                         infBox.setVisible(true);

@@ -10,7 +10,7 @@ public class Sirkel extends Figur {
     private double initialY;
     private  int strokebredde;
 
-    public Sirkel(double x, double y, double radius, Color strokeColor,Color fillColor, int strokebredde) {
+    public Sirkel(double x, double y, double radius, Color strokeColor,Color fillColor, double strokebredde) {
         sirkel = new javafx.scene.shape.Circle(x, y, radius);
         sirkel.setStroke(strokeColor);
         sirkel.setFill(fillColor);

@@ -9,7 +9,7 @@ public class Rektangel extends Figur {
     private double initialX;
     private double initialY;
 
-    public Rektangel(double x, double y, double width, double height, Color strokeColor, Color fillColor, int strokebredde) {
+    public Rektangel(double x, double y, double width, double height, Color strokeColor, Color fillColor, double strokebredde) {
         rektangel = new javafx.scene.shape.Rectangle(x, y, width, height);
         rektangel.setStroke(strokeColor);
         rektangel.setFill(fillColor);
