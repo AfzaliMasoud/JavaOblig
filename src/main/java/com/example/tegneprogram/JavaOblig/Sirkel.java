@@ -8,11 +8,13 @@ public class Sirkel extends Figur {
     private javafx.scene.shape.Circle sirkel;
     private double initialX;
     private double initialY;
+    private  int strokebredde;
 
-    public Sirkel(double x, double y, double radius, Color strokeColor,Color fillColor) {
+    public Sirkel(double x, double y, double radius, Color strokeColor,Color fillColor, int strokebredde) {
         sirkel = new javafx.scene.shape.Circle(x, y, radius);
         sirkel.setStroke(strokeColor);
         sirkel.setFill(fillColor);
+        sirkel.setStrokeWidth(strokebredde);
 
     }
 
@@ -35,10 +37,19 @@ public class Sirkel extends Figur {
     }
 
 
-
     @Override
     public void setnyStrokeColor(Color nyFarge){
         sirkel.setStroke(nyFarge);
+    }
+
+
+    @Override
+    public double getStrokeWidth() {
+        return (double) sirkel.getStrokeWidth();
+    }
+
+    public void setNyStrokewidth(double nystrokebredde){
+        sirkel.setStrokeWidth(nystrokebredde);
     }
 
     @Override
@@ -84,15 +95,8 @@ public class Sirkel extends Figur {
     @Override
     public void handleMouseReleased() {
         double radius = getRadius();
-
-        if (radius < 5) {
+        if (radius < 2) {
             removeShape();
-        } else if (radius <45) {
-            sirkel.setStrokeWidth(1);
-        } else if (radius >45 || radius < 100) {
-            sirkel.setStrokeWidth(2);
-        } else if (radius > 100){
-            sirkel.setStrokeWidth(2*radius);
         }
     }
 

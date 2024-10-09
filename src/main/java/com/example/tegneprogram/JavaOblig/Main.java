@@ -14,12 +14,20 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.input.MouseButton;
+
+import javax.swing.*;
 import java.util.ArrayList;
+
 
 public class Main extends Application {
     Label velgFigur = new Label("Velg Figur");
     Label velgFarge = new Label("Velg Linje Farge");
     Label VelgFill = new Label("Velg Fill farge");
+    Label velgStrokeWidth = new Label("Skriv Stroke width: ");
+    TextField Strokwidthtext = new TextField("1");
+
+    int strokebredde;
+    Figur nyFigur = null;
 
     Label whichshape = new Label("Figur Du har klikket på: ");
     TextField figurklikket = new TextField();
@@ -27,10 +35,10 @@ public class Main extends Application {
     Label FigurPos = new Label("Figur Positionen din: ");
     TextField FigurPos2 = new TextField();
 
-    Label FigurFarge = new Label("Figur Linje Farge: ");
+    Label FigurFarge = new Label("Figur Linje farge: ");
     TextField FigurFarge2 = new TextField();
 
-    Label FigurFillFarge = new Label("Figur Fill farge");
+    Label FigurFillFarge = new Label("Figur Fill farge: ");
     TextField FigurFillFargetext = new TextField();
 
     Label velgnystroke = new Label("Velg en ny stroke farge: ");
@@ -40,12 +48,20 @@ public class Main extends Application {
     ComboBox<String> velgnyFillertext = new ComboBox<>();
 
     Button Slett = new Button("SLETT FIGUR");
+    Label gamleStrokewidth = new Label("Figur Stroke Bredde:");
+    TextField gamleStrokewidthtext = new TextField();
+
+    Label byttStrokewidth = new Label("Bytt Stroke Bredde: ");
+    TextField byttStrokewidthText = new TextField();
+
+    Button SaveFile = new Button("Lagre Fil");
+
 
     VBox infBox;
     ArrayList<Figur> figurer = new ArrayList<>();
     String valgtFigur = "Rektangel";
     Color valgtFarge = Color.BLUE;
-    Color valgtFillFarge = Color.BLUE;
+    Color valgtFillFarge = Color.RED;
 
     private double startX;
     private double startY;
@@ -53,6 +69,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
+
         BorderPane hovedPane = new BorderPane();
         VBox velgFigurPane = lagValgPane();
         infBox = lagInfPane();
@@ -69,24 +87,25 @@ public class Main extends Application {
         primaryStage.setTitle("Tegneprogram");
         primaryStage.setScene(scene);
         primaryStage.show();
-        tegnePane.requestFocus();
+
     }
+
 
     private void oppsettMusTrykk(Pane tegnePane) {
         tegnePane.setOnMousePressed(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
                 startX = e.getX();
                 startY = e.getY();
-                Figur nyFigur = null;
+                strokebredde = Integer.parseInt(Strokwidthtext.getText());
                 switch (valgtFigur) {
                     case "Rektangel":
-                        nyFigur = new Rektangel(startX, startY, 0, 0, valgtFarge, valgtFillFarge);
+                        nyFigur = new Rektangel(startX, startY, 0, 0, valgtFarge, valgtFillFarge,strokebredde);
                         break;
                     case "Sirkel":
-                        nyFigur = new Sirkel(startX, startY, 0, valgtFarge, valgtFillFarge);
+                        nyFigur = new Sirkel(startX, startY, 0, valgtFarge, valgtFillFarge,strokebredde);
                         break;
                     case "Linje":
-                        nyFigur = new Linje(startX, startY, startX, startY, valgtFarge);
+                        nyFigur = new Linje(startX, startY, startX, startY, valgtFarge,strokebredde);
                         break;
                 }
                 if (nyFigur != null) {
@@ -96,6 +115,13 @@ public class Main extends Application {
                     selectedFigur.handleMousePressed(startX, startY);
                 }
             }
+            if (strokebredde <= 0 || strokebredde > 20) {
+                if (nyFigur != null) {
+                    tegnePane.getChildren().remove(nyFigur.getShape());
+                    figurer.remove(nyFigur);
+                }
+                JOptionPane.showMessageDialog(null, "Stroke bredde kan ikke være mindre enn 1 og større enn 20", "FEIL!!!", JOptionPane.ERROR_MESSAGE);
+            }
         });
     }
     public VBox lagValgPane() {
@@ -103,8 +129,8 @@ public class Main extends Application {
         vBox.setAlignment(Pos.CENTER);
         ComboBox<String> listeFigurer = new ComboBox<>();
         ComboBox<String> listeFill = new ComboBox<>();
-        listeFill.getItems().addAll("Blå", "Rød", "Grønn", "Gul", "Svart");
-        listeFill.setValue("Blå");
+        listeFill.getItems().addAll("Rød", "Blå", "Grønn", "Gul", "Svart");
+        listeFill.setValue("Rød");
         listeFigurer.getItems().addAll("Linje", "Sirkel", "Rektangel");
         listeFigurer.setValue("Rektangel");
         listeFigurer.setOnAction(e -> valgtFigur = listeFigurer.getValue());
@@ -118,9 +144,11 @@ public class Main extends Application {
         vBox.getChildren().addAll(velgFigur, listeFigurer, velgFarge, listeFarger);
         vBox.getChildren().addAll(VelgFill, listeFill);
         vBox.getChildren().addAll(velgnystroke,velgnystroketext);
+        vBox.getChildren().addAll(velgStrokeWidth,Strokwidthtext);
         stilValg(vBox);
         return vBox;
     }
+
     private void oppsettMusDra(Pane tegnePane) {
         tegnePane.setOnMouseDragged(e -> {
             if (e.getButton() == MouseButton.PRIMARY && selectedFigur != null) {
@@ -144,6 +172,7 @@ public class Main extends Application {
             if (e.getButton() == MouseButton.SECONDARY && !e.isPrimaryButtonDown()) {
                 double mouseX = e.getX();
                 double mouseY = e.getY();
+                int strokebreddefigur;
                 selectedFigur = null;
 
                 for (int i = figurer.size() - 1; i >= 0; i--) {
@@ -155,14 +184,12 @@ public class Main extends Application {
                         FigurPos2.setText("X: " + selectedFigur.fåX() + ", Y: " + selectedFigur.fåY());
                         FigurFarge2.setText("Farge Stroke: " + selectedFigur.getStrokeColor());
                         FigurFillFargetext.setText("Farge Fill: " + selectedFigur.getFillColor());
-                        infBox.setVisible(true);
-
                         String strokeColorString = fargeTilString(selectedFigur.getStrokeColor());
                         velgnystroketext.setValue(strokeColorString);
 
                         String fillColorString = fargeTilString(selectedFigur.getFillColor());
                         velgnyFillertext.setValue(fillColorString);
-
+                        infBox.setVisible(true);
                         break;
                     }
                 }
@@ -190,6 +217,17 @@ public class Main extends Application {
             }
         });
 
+        byttStrokewidthText.setOnAction(e->{
+            if (selectedFigur != null){
+                double breddeny = Double.parseDouble(byttStrokewidthText.getText());
+                if (breddeny <= 0 || breddeny > 20) {
+                    JOptionPane.showMessageDialog(null, "Stroke bredde kan ikke være mindre enn 1 og større enn 20", "FEIL!!!", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                selectedFigur.setNyStrokewidth(breddeny);
+            }
+        });
+
         Slett.setOnAction(e -> {
             if (selectedFigur !=null){
                 selectedFigur.removeShape();
@@ -197,13 +235,11 @@ public class Main extends Application {
         });
 
     }
-
-
     public VBox lagInfPane() {
         VBox boxinf = new VBox();
         boxinf.setAlignment(Pos.CENTER);
         boxinf.getChildren().addAll(whichshape, figurklikket, FigurPos, FigurPos2, FigurFarge, FigurFarge2,FigurFillFarge,
-                FigurFillFargetext,velgnystroke,velgnystroketext,velgnyFiller,velgnyFillertext,Slett);
+                FigurFillFargetext,gamleStrokewidth,gamleStrokewidthtext,velgnystroke,velgnystroketext,velgnyFiller,velgnyFillertext,byttStrokewidth,byttStrokewidthText,Slett);
         slettStyle(Slett);
         stilValg(boxinf);
         return boxinf;
@@ -251,7 +287,7 @@ public class Main extends Application {
         } else if (farge.equals(Color.BLUE)) {
             return "Blå";
         } else {
-            return "Ukjent"; // Default value if color is not found
+            return "Ukjent";
         }
     }
     public void stilValg(Node n) {

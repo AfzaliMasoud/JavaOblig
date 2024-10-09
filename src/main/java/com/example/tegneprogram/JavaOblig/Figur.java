@@ -18,6 +18,11 @@ public abstract class Figur {
 
     public abstract void removeShape();
 
+    public double getStrokeWidth(){
+        return (double) getShape().getStrokeWidth();
+    };
+
+    public abstract void setNyStrokewidth(double nystrokebredde);
     public abstract String getDetails();
 
     public abstract double fåX();

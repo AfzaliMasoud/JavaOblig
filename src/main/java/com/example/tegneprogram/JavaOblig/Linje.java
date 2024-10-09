@@ -7,9 +7,10 @@ public class Linje extends Figur {
     private double startX;
     private double startY;
 
-    public Linje(double startX, double startY, double endX, double endY, Color strokeColor) {
+    public Linje(double startX, double startY, double endX, double endY, Color strokeColor, double strokebredde) {
         linje = new javafx.scene.shape.Line(startX, startY, endX, endY);
         linje.setStroke(strokeColor);
+        linje.setStrokeWidth(strokebredde);
     }
 
     public void setEndPoints(double startX, double startY, double endX, double endY) {
@@ -28,6 +29,9 @@ public class Linje extends Figur {
         linje.setStroke(nyFarge);
     }
 
+    public void setNyStrokewidth(double nystrokebredde){
+        linje.setStrokeWidth(nystrokebredde);
+    }
 
     @Override
     public Color getFillColor() {
@@ -48,8 +52,6 @@ public class Linje extends Figur {
     public void SetNyFill(Color nyFarge){
         linje.setFill(nyFarge);
     }
-
-
 
     @Override
     public void handleMousePressed(double x, double y) {
@@ -73,7 +75,7 @@ public class Linje extends Figur {
 
     @Override
     public void handleMouseReleased() {
-        if (Math.abs(linje.getEndX() - linje.getStartX()) < 5 && Math.abs(linje.getEndY() - linje.getStartY()) < 5) {
+        if (Math.abs(linje.getEndX() - linje.getStartX()) < 3 && Math.abs(linje.getEndY() - linje.getStartY()) < 3) {
             removeShape();
         }
     }
