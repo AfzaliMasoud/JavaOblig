@@ -33,10 +33,6 @@ public class Linje extends Figur {
         linje.setStrokeWidth(nystrokebredde);
     }
 
-    @Override
-    public Color getFillColor() {
-        return null;
-    }
 
     @Override
     public javafx.scene.shape.Shape getShape() {
@@ -45,12 +41,14 @@ public class Linje extends Figur {
 
     @Override
     public String getDetails() {
-        return "Linje: Fra (" + linje.getStartX() + ", " + linje.getStartY() + ") til (" + linje.getEndX() + ", " + linje.getEndY() + ")";
-    }
+        double startX = linje.getStartX();
+        double startY = linje.getStartY();
+        double endX = linje.getEndX();
+        double endY = linje.getEndY();
 
-    @Override
-    public void SetNyFill(Color nyFarge){
-        linje.setFill(nyFarge);
+        double length = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+
+        return "Lengde: " + String.format("%.2f", length);
     }
 
     @Override

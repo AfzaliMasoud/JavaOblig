@@ -52,11 +52,10 @@ public class Sirkel extends Figur {
         sirkel.setStrokeWidth(nystrokebredde);
     }
 
-    @Override
     public Color getFillColor() {
         return (Color) sirkel.getFill();
     }
-    @Override
+
     public void SetNyFill(Color nyFarge){
         sirkel.setFill(nyFarge);
     }

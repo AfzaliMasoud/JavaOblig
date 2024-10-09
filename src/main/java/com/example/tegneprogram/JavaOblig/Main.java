@@ -32,7 +32,7 @@ public class Main extends Application {
     Label whichshape = new Label("Figur Du har klikket på: ");
     TextField figurklikket = new TextField();
 
-    Label FigurPos = new Label("Figur Positionen din: ");
+    Label FigurPos = new Label("Figur Positionen din (midten): ");
     TextField FigurPos2 = new TextField();
 
     Label FigurFarge = new Label("Figur Linje farge: ");
@@ -41,17 +41,17 @@ public class Main extends Application {
     Label FigurFillFarge = new Label("Figur Fill farge: ");
     TextField FigurFillFargetext = new TextField();
 
-    Label velgnystroke = new Label("Velg en ny stroke farge: ");
+    Label velgnystroke = new Label("Velg en ny linje/stroke farge: ");
     ComboBox<String> velgnystroketext = new ComboBox<>();
 
     Label velgnyFiller = new Label("Velg en ny Fill farge: ");
     ComboBox<String> velgnyFillertext = new ComboBox<>();
 
     Button Slett = new Button("SLETT FIGUR");
-    Label gamleStrokewidth = new Label("Figur Stroke Bredde:");
+    Label gamleStrokewidth = new Label("Figur Stroke/linje Bredde:");
     TextField gamleStrokewidthtext = new TextField();
 
-    Label byttStrokewidth = new Label("Bytt Stroke Bredde: ");
+    Label byttStrokewidth = new Label("Bytt Stroke/linje Bredde: ");
     TextField byttStrokewidthText = new TextField();
 
     Button SaveFile = new Button("Lagre Fil");
@@ -69,6 +69,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        figurklikket.setEditable(false);
+        FigurPos2.setEditable(false);
+        FigurFarge2.setEditable(false);
+        FigurFillFargetext.setEditable(false);
+        gamleStrokewidthtext.setEditable(false);
 
 
         BorderPane hovedPane = new BorderPane();
@@ -176,7 +181,6 @@ public class Main extends Application {
             if (e.getButton() == MouseButton.SECONDARY && !e.isPrimaryButtonDown()) {
                 double mouseX = e.getX();
                 double mouseY = e.getY();
-                int strokebreddefigur;
                 selectedFigur = null;
 
                 for (int i = figurer.size() - 1; i >= 0; i--) {
@@ -186,8 +190,8 @@ public class Main extends Application {
                         selectedFigur = figur;
                         figurklikket.setText(selectedFigur.getDetails());
                         FigurPos2.setText("X: " + selectedFigur.fåX() + ", Y: " + selectedFigur.fåY());
-                        FigurFarge2.setText("Farge Stroke: " + selectedFigur.getStrokeColor());
-                        FigurFillFargetext.setText("Farge Fill: " + selectedFigur.getFillColor());
+                        FigurFarge2.setText(fargeTilString(selectedFigur.getStrokeColor()));
+                        FigurFillFargetext.setText(fargeTilString(selectedFigur.getFillColor()));
                         String strokeColorString = fargeTilString(selectedFigur.getStrokeColor());
                         velgnystroketext.setValue(strokeColorString);
                         gamleStrokewidthtext.setText(String.valueOf(selectedFigur.getStrokeWidth()));
@@ -209,7 +213,8 @@ public class Main extends Application {
                 String valgavastrokfarge = velgnystroketext.getValue();
                 Color nyStrokeFarge = nyfargeValg(valgavastrokfarge);
                 selectedFigur.setnyStrokeColor(nyStrokeFarge);
-                FigurFarge2.setText("Farge Stroke: " + nyStrokeFarge);
+                FigurFarge2.setText( "" + nyStrokeFarge);
+
             }
         });
 
@@ -266,20 +271,25 @@ public class Main extends Application {
     }
 
     public Color nyfargeValg(String fargenavn){
-        switch (fargenavn) {
-            case "Rød":
-                return Color.RED;
-            case "Grønn":
-                return Color.GREEN;
-            case "Gul":
-                return Color.YELLOW;
-            case "Svart":
-                return Color.BLACK;
-            default:
-                return Color.BLUE;
+        if (fargenavn.equals("Rød")) {
+            return Color.RED;
+        } else if (fargenavn.equals("Grønn")) {
+            return Color.GREEN;
+        } else if (fargenavn.equals("Gul")) {
+            return Color.YELLOW;
+        } else if (fargenavn.equals("Svart")) {
+            return Color.BLACK;
+        } else if (fargenavn.equals("Blå")) {
+            return Color.BLUE;
+        }
+        else {
+            return Color.BLUE;
         }
     }
     public String fargeTilString(Color farge) {
+        if (farge == null) {
+            return "Ukjent";
+        }
         if (farge.equals(Color.RED)) {
             return "Rød";
         } else if (farge.equals(Color.GREEN)) {
@@ -294,6 +304,7 @@ public class Main extends Application {
             return "Ukjent";
         }
     }
+
     public void stilValg(Node n) {
         n.setStyle("-fx-padding: 12; " +
                 "-fx-spacing: 12; " +

@@ -36,8 +36,6 @@ public class Rektangel extends Figur {
         return rektangel.getHeight();
     }
 
-
-    @Override
     public Color getFillColor() {
         return (Color) rektangel.getFill();
     }
@@ -78,7 +76,6 @@ public class Rektangel extends Figur {
         rektangel.setStrokeWidth(nystrokebredde);
     }
 
-    @Override
     public void SetNyFill(Color nyFarge){
         rektangel.setFill(nyFarge);
     }

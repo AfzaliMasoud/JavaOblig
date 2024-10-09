@@ -4,15 +4,20 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
 public abstract class Figur {
-    protected Color fillColor;
 
     public abstract Color getStrokeColor();
 
     public abstract void setnyStrokeColor(Color nystrokeColor);
 
-    public abstract Color getFillColor();
+    public Color getFillColor(){
+        return (Color) getShape().getFill();
+    };
 
-    public abstract void SetNyFill(Color nystrokeColor);
+    public void SetNyFill(Color nyfillColor){
+
+        getShape().setFill(nyfillColor);
+
+    }
 
     public abstract Shape getShape();
 
@@ -23,6 +28,7 @@ public abstract class Figur {
     };
 
     public abstract void setNyStrokewidth(double nystrokebredde);
+
     public abstract String getDetails();
 
     public abstract double fåX();
